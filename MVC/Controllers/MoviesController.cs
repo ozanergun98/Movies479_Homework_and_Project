@@ -18,11 +18,16 @@ namespace MVC.Controllers
     {
         // TODO: Add service injections here
         private readonly IMovieService _movieService;
+		private readonly IDirectorService _directorService;
+		private readonly IGenreService _genreService;
 
-        public MoviesController(IMovieService movieService)
+		public MoviesController(IMovieService movieService, IDirectorService directorService, IGenreService genreService)
         {
             _movieService = movieService;
-        }
+			_directorService = directorService;
+		    _genreService = genreService;
+
+	}
 
         // GET: Movies
         public IActionResult Index()
@@ -46,7 +51,7 @@ namespace MVC.Controllers
         public IActionResult Create()
         {
             // TODO: Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["DirectorId"] = new SelectList(_movieService.Query().ToList(), "Id", "Name");
+            ViewData["DirectorId"] = new SelectList(_directorService.Query().ToList(), "Id", "DirectorOutput");
 			return View();
         }
 
@@ -69,7 +74,7 @@ namespace MVC.Controllers
 				ModelState.AddModelError("", "Movie couldn't be added!");
 			}
 			// TODO: Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-			ViewData["DirectorId"] = new SelectList(_movieService.Query().ToList(), "Id", "Name");
+			ViewData["DirectorId"] = new SelectList(_directorService.Query().ToList(), "Id", "DirectorOutput");
 			return View(movie);
 		}
 
@@ -81,9 +86,9 @@ namespace MVC.Controllers
             {
                 return NotFound();
             }
-            // TODO: Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["DirectorId"] = new SelectList(new List<SelectListItem>(), "Id", "Name");
-            return View(movie);
+			// TODO: Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
+			ViewData["DirectorId"] = new SelectList(_directorService.Query().ToList(), "Id", "DirectorOutput");
+			return View(movie);
         }
 
         // POST: Movies/Edit
@@ -93,14 +98,20 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(MovieModel movie)
         {
-            if (ModelState.IsValid)
-            {
-                // TODO: Add update service logic here
-                return RedirectToAction(nameof(Index));
-            }
-            // TODO: Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["DirectorId"] = new SelectList(new List<SelectListItem>(), "Value", "Text");
-            return View(movie);
+			if (ModelState.IsValid)
+			{
+				// TODO: Add update service logic here
+				var result = _movieService.Update(movie);
+				if (result)
+				{
+					TempData["Message"] = "Director updated successfully.";
+					return RedirectToAction(nameof(Index));
+				}
+				ModelState.AddModelError("", "Director couldn't be updated!");
+			}
+			// TODO: Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
+			ViewData["DirectorId"] = new SelectList(_directorService.Query().ToList(), "Id", "DirectorOutput");
+			return View(movie);
         }
 
         // GET: Movies/Delete/5

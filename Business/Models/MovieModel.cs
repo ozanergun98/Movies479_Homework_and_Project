@@ -1,5 +1,6 @@
 ﻿#nullable disable
 
+using System.ComponentModel;
 using DataAccess.Entities;
 
 namespace Business.Models
@@ -11,10 +12,13 @@ namespace Business.Models
 
         public short? Year { get; set; }
 
-        public float Revenue { get; set; }
+		[DisplayName("Revenue($M)")]
+		public float Revenue { get; set; }
 
+        [DisplayName("Director")]
         public int? DirectorId { get; set; }
 
-        //public string DirectorOutput { get; set; }
+		[DisplayName("Director")]
+		public string? DirectorOutput { get; set; }
     }
 }

@@ -9,7 +9,9 @@ namespace Business.Services
     {
         IQueryable<GenreModel> Query();
         bool Add(GenreModel model);
-    }
+        bool Update(GenreModel model);
+		bool Delete(int id);
+	}
 
     public class GenreService : IGenreService
     {
@@ -22,7 +24,7 @@ namespace Business.Services
 
         public bool Add(GenreModel model)
         {
-            if (_db.Movies.Any(s => s.Name.ToUpper() == model.Name.ToUpper().Trim()))
+            if (_db.Genres.Any(s => s.Name.ToUpper() == model.Name.ToUpper().Trim()))
                 return false;
             Genre entity = new Genre()
             {
@@ -35,13 +37,33 @@ namespace Business.Services
 
         public IQueryable<GenreModel> Query()
         {
-            return _db.Genres.Include(s => s.Movies)
-                .OrderByDescending(s => s.Name)
-                .Select(s => new GenreModel()
+            return _db.Genres.Select(s => new GenreModel()
                 {
                     Id = s.Id,
                     Name = s.Name,
                 });
         }
-    }
+
+		public bool Update(GenreModel model)
+		{
+			if (_db.Genres.Any(s => s.Name.ToUpper() == model.Name.ToUpper().Trim() && s.Id != model.Id))
+				return false;
+			Genre existingEntity = _db.Genres.SingleOrDefault(s => s.Id == model.Id);
+			if (existingEntity is null)
+				return false;
+			existingEntity.Name = model.Name.Trim();
+			_db.Genres.Update(existingEntity);
+			_db.SaveChanges();
+			return true;
+		}
+		public bool Delete(int id)
+		{
+			Genre entity = _db.Genres.SingleOrDefault(s => s.Id == id);
+			if (entity is null)
+				return false;
+			_db.Genres.Remove(entity);
+			_db.SaveChanges();
+			return true;
+		}
+	}
 }

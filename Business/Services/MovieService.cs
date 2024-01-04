@@ -30,12 +30,12 @@ namespace Business.Services
                 return false;
             Movie entity = new Movie()
             {
-                DirectorId = model.DirectorId ?? 0,
-                //GenreId = model.GenreId ?? 0,
-                Name = model.Name.Trim(),
+				Id = model.Id,
+				Name = model.Name.Trim(),
                 Year = model.Year,
-                Revenue = model.Revenue
-            };
+                Revenue = model.Revenue,
+				DirectorId = model.DirectorId ?? 0,
+			};
             _db.Movies.Add(entity);
             _db.SaveChanges();
             return true;
@@ -57,15 +57,16 @@ namespace Business.Services
                 .OrderByDescending(s => s.Year).ThenByDescending(s => s.Revenue).ThenBy(s => s.Name)
                 .Select(s => new MovieModel()
                 {
-                    DirectorId = s.DirectorId,
-                    //DirectorOutput = s.Director.Name,
-                    //GenreId = s.GenreId,
-                    //GenreOutput = s.Genre.Name,
-                    Id = s.Id,
+					//DirectorOutput = s.Director.Name,
+					//GenreId = s.GenreId,
+					//GenreOutput = s.Genre.Name,
+					Id = s.Id,
                     Name = s.Name,
                     Revenue = s.Revenue,
                     Year = s.Year,
-                });
+					DirectorId = s.DirectorId,
+					DirectorOutput = s.Director.Name + " " + s.Director.Surname,
+				});
         }
 
         public bool Update(MovieModel model)

@@ -13,5 +13,7 @@ namespace Business.Models
         public DateTime? BirthDate { get; set; }
 
         public bool IsRetired { get; set; }
+
+        public string DirectorOutput { get; set; }
     }
 }

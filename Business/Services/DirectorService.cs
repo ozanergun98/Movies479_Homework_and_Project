@@ -26,12 +26,12 @@ namespace Business.Services
         {
             return _db.Directors.Include(r => r.Movies).OrderBy(r => r.Name).Select(r => new DirectorModel()
             {
-                // model - entity property assignments
                 Id = r.Id,
                 Name = r.Name,
                 Surname = r.Surname,
                 BirthDate = r.BirthDate,
-                IsRetired = r.IsRetired
+                IsRetired = r.IsRetired,
+                DirectorOutput = r.Name + " " + r.Surname
             });
         }
 

@@ -1,4 +1,4 @@
-﻿@model MovieModel
+﻿@model DirectorModel
 @*Generated from Custom Template.*@
 @*Model namespace using directive should be added to _ViewImports.cshtml.*@
 
@@ -8,7 +8,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<h4>Movie</h4>
+<h4>Director</h4>
 <hr />
 <div class="row">
     <div class="col-12">
@@ -23,27 +23,24 @@
 				</div>
             </div>
             <div class="row mb-3">
-                <label asp-for="Year" class="col-2 col-form-label"></label>
+                <label asp-for="Surname" class="col-2 col-form-label"></label>
 				<div class="col-5">
-					<input asp-for="Year" class="form-control" />
-					<span asp-validation-for="Year" class="text-danger"></span>
+					<input asp-for="Surname" class="form-control" />
+					<span asp-validation-for="Surname" class="text-danger"></span>
 				</div>
             </div>
             <div class="row mb-3">
-                <label asp-for="Revenue" class="col-2 col-form-label"></label>
+                <label asp-for="BirthDate" class="col-2 col-form-label"></label>
 				<div class="col-5">
-					<input asp-for="Revenue" class="form-control" />
-					<span asp-validation-for="Revenue" class="text-danger"></span>
+					<input asp-for="BirthDate" class="form-control" />
+					<span asp-validation-for="BirthDate" class="text-danger"></span>
 				</div>
             </div>
             <div class="row mb-3">
-                <label asp-for="DirectorId" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<select asp-for="DirectorId" class="form-select" asp-items="ViewBag.DirectorId">
-						<option value="">-- Select --</option>
-					</select>
-					<span asp-validation-for="DirectorId" class="text-danger"></span>
-				</div>
+				<label asp-for="IsRetired" class="col-2 col-form-label"></label>
+				<div class="col-5" style="padding-top: 7px;">
+					<input class="form-check-input" asp-for="IsRetired" />
+                </div>
             </div>
             <div class="row mb-3">
 				<div class="offset-2 col-5">
