@@ -9,8 +9,8 @@ namespace DataAccess.Contexts
         public DbSet<Director> Directors { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<MovieGenre> MovieGenres { get; set; }
-
-        public Db(DbContextOptions options) : base(options)
+		public DbSet<User> Users { get; set; }
+		public Db(DbContextOptions options) : base(options)
         {
 
         }
